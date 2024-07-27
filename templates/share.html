@@ -9,10 +9,35 @@
 <body>
     <div class="container">
         <h1>Ask Me Anything</h1>
-        <div class="card">
-            <p>{{ question.question }}</p>
+        <div class="card" id="question-card">
+            <p>{{ question.content }}</p>
         </div>
-        <a href="https://twitter.com/intent/tweet?text={{ question.question }}" target="_blank" class="btn">Share on Twitter</a>
+        <button class="btn" id="save-image">
+            <a id="download-link" download="question.png">Download Image</a>
+        </button>
+        
     </div>
+    <script src="/static/html2canvas.min.js"></script>
+    <script>
+        document.getElementById('save-image').addEventListener('click', function() {
+            html2canvas(document.getElementById('question-card')).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                fetch('/save_image', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ image: imgData })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const downloadLink = document.getElementById('download-link');
+                    downloadLink.href = data.url;
+                    downloadLink.style.display = 'block';
+                    downloadLink.click();
+                });
+            });
+        });
+    </script>
 </body>
 </html>

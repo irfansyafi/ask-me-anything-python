@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, Form, HTTPException, Depends
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
@@ -9,6 +9,9 @@ from sqlalchemy.orm import sessionmaker
 import uuid
 from dotenv import load_dotenv
 import os
+from PIL import Image
+import base64
+from io import BytesIO
 
 load_dotenv()
 
@@ -80,6 +83,19 @@ async def share_question(request: Request, question_id: str, user: str = Depends
     if question:
         return templates.TemplateResponse("share.html", {"request": request, "question": question})
     return RedirectResponse(url="/questions")
+
+@app.post("/save_image")
+async def save_image(request: Request):
+    data = await request.json()
+    img_data = data.get("image")
+    if not img_data:
+        raise HTTPException(status_code=400, detail="No image data found")
+    
+    img_data = base64.b64decode(img_data.split(",")[1])
+    img = Image.open(BytesIO(img_data))
+    img.save("static/question.png")
+    
+    return {"url": "/static/question.png"}
 
 if __name__ == "__main__":
     import uvicorn
