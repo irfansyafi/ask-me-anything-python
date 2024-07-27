@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questions</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Questions</h1>
+        {% for question in questions %}
+            <div class="card">
+                <p>{{ question.content }}</p>
+                <a href="/questions/{{ question.id }}" class="btn">Answer</a>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
