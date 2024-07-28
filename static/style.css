@@ -1,56 +1,49 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
+    background-color: #f0f8ff;
     color: #333;
-    text-align: center;
+    padding: 20px;
 }
 
 .container {
-    margin-top: 50px;
+    max-width: 600px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
 h1 {
-    margin-bottom: 30px;
+    color: #1abc9c;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    background: #e8f8f5;
+    border: 1px solid #1abc9c;
     padding: 20px;
-    margin: 10px auto;
-    max-width: 500px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    border-radius: 8px;
 }
 
 .btn {
-    display: block;
-    width: 100%;
-    padding: 10px;
+    background: #1abc9c;
+    color: #fff;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 16px;
     cursor: pointer;
+    display: block;
+    margin: 20px auto;
     text-align: center;
 }
 
 .btn:hover {
-    background-color: #0056b3;
+    background: #16a085;
 }
 
-textarea {
-    width: 100%;
-    height: 100px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 20px;
+#download-link {
+    display: none;
 }
-
-.message {
-    margin-top: 20px;
-    color: green;
-}
-    

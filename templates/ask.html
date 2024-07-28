@@ -4,17 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ask a Question</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Ask a Question</h1>
-        <form method="POST">
-            <textarea name="question" placeholder="Type your question here..."></textarea>
-            <button type="submit" class="btn">Submit</button>
+        <h1>Ask Me Anything</h1>
+        <form method="post">
+            <div class="form-group">
+                <textarea class="form-control" name="question" rows="5" placeholder="Send anonymous messages or questions" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Send Question</button>
         </form>
         {% if submitted %}
-            <p class="message">Your question has been submitted successfully!</p>
+            <div class="alert alert-success mt-3" role="alert">
+                Your question has been submitted!
+            </div>
         {% endif %}
     </div>
 </body>
