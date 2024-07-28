@@ -6,6 +6,23 @@
     <title>Share Question</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body {
+            background-color: #E0F7FA; /* Light turquoise */
+        }
+        .btn-primary {
+            background-color: #40E0D0;
+            border-color: #40E0D0;
+        }
+        .card {
+            border: 1px solid #40E0D0;
+        }
+        .alert-success {
+            background-color: #40E0D0;
+            border-color: #40E0D0;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <div class="container" id="question-card">
@@ -16,7 +33,7 @@
             </div>
         </div>
         <button id="save-image" class="btn btn-primary mt-3">Save as Image</button>
-        <a id="download-link" href="#" style="display: none;" download="question.png"></a>
+        <a id="download-link" style="display: none;"></a>
         <div id="save-alert" class="alert alert-success mt-3" style="display: none;" role="alert">
             The image has been saved!
         </div>
@@ -26,21 +43,12 @@
         document.getElementById('save-image').addEventListener('click', function() {
             html2canvas(document.getElementById('question-card')).then(canvas => {
                 const imgData = canvas.toDataURL('image/png');
-                fetch('/save_image', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ image: imgData })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    const downloadLink = document.getElementById('download-link');
-                    downloadLink.href = data.url;
-                    downloadLink.style.display = 'block';
-                    downloadLink.click();
-                    document.getElementById('save-alert').style.display = 'block';
-                });
+                const downloadLink = document.getElementById('download-link');
+                downloadLink.href = imgData;
+                downloadLink.download = 'question.png';
+                downloadLink.style.display = 'block';
+                downloadLink.click();
+                document.getElementById('save-alert').style.display = 'block';
             });
         });
     </script>
