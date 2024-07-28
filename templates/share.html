@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Share Question</title>
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="/static/style.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Question</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
 <body>
-    <div class="container card" id="question-card">
-        <h1>Ask Me Anything</h1>
-        <div class="card" >
-            <p>{{ question.content }}</p>
+    <div class="container" id="question-card">
+        <h1 class="mt-5">Ask Irfan Anything!</h1>
+        <div class="card mt-3">
+            <div class="card-body">
+                <p class="card-text">{{ question.content }}</p>
+            </div>
         </div>
-    </div>
-    <div class = "container card">
-        <button class="btn" id="save-image">
-            <a id="download-link" download="question.png">Save Image</a>
-        </button>
+        <button id="save-image" class="btn btn-primary mt-3">Save as Image</button>
+        <a id="download-link" href="#" style="display: none;" download="question.png"></a>
+        <div id="save-alert" class="alert alert-success mt-3" style="display: none;" role="alert">
+            The image has been saved!
+        </div>
     </div>
     <script src="/static/html2canvas.min.js"></script>
     <script>
@@ -37,6 +39,7 @@
                     downloadLink.href = data.url;
                     downloadLink.style.display = 'block';
                     downloadLink.click();
+                    document.getElementById('save-alert').style.display = 'block';
                 });
             });
         });

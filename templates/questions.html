@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Questions</title>
+    <title>Questions</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Questions</h1>
-        <ul class="list-group">
+        <h1 class="mt-5">Questions</h1>
+        <ul class="list-group mt-3">
             {% for question in questions %}
                 <li class="list-group-item">
                     {{ question.content }}
-                    <a href="/questions/{{ question.id }}" class="btn btn-link float-right">Share</a>
+                    <a href="/questions/{{ question.id }}" class="btn btn-secondary btn-sm float-right">Share</a>
                 </li>
             {% endfor %}
         </ul>
