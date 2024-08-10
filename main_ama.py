@@ -110,7 +110,6 @@ async def answered_questions(request: Request, db: SessionLocal = Depends(get_db
     questions = db.query(Question).filter(Question.answer != None).all()
     return templates.TemplateResponse("answered_questions.html", {"request": request, "questions": questions})
 
-
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8000)
