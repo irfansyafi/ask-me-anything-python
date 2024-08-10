@@ -14,3 +14,16 @@
     </div>
 </body>
 </html>
+
+
+{% for question in questions %}
+    <div class="card mt-3">
+        <div class="card-body">
+            <p class="card-text">{{ question.content }}</p>
+            <form action="/answer_question/{{ question.id }}" method="post">
+                <textarea name="answer" class="form-control" rows="3" placeholder="Type your answer here..."></textarea>
+                <button type="submit" class="btn btn-primary mt-2">Submit Answer</button>
+            </form>
+        </div>
+    </div>
+{% endfor %}

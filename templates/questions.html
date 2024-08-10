@@ -8,16 +8,27 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1 class="mt-5">Questions</h1>
-        <ul class="list-group mt-3">
-            {% for question in questions %}
-                <li class="list-group-item">
-                    {{ question.content }}
-                    <a href="/questions/{{ question.id }}" class="btn btn-secondary btn-sm float-right">Share</a>
-                </li>
-            {% endfor %}
-        </ul>
+    <div class="container mt-5">
+        <h1>All Questions</h1>
+        {% for question in questions %}
+            <div class="card mt-3">
+                <div class="card-body">
+                    <p class="card-text"><strong>Question:</strong> {{ question.content }}</p>
+
+                    <!-- Screenshot Section -->
+                    <a href="/questions/{{ question.id }}" class="btn btn-primary mt-2">Take Screenshot</a>
+                    
+                    <!-- Answer Form Section -->
+                    <form action="/answer_question/{{ question.id }}" method="post" class="mt-3">
+                        <div class="form-group">
+                            <label for="answer">Answer:</label>
+                            <textarea name="answer" class="form-control" rows="3" placeholder="Type your answer here..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">Submit Answer</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 </body>
 </html>

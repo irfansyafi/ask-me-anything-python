@@ -35,6 +35,7 @@ class Question(Base):
     __tablename__ = "questions"
     id = Column(String, primary_key=True, index=True)
     content = Column(String, index=True)
+    answer = Column(String, nullable= True) # Store the answer
 
 Base.metadata.create_all(bind=engine)
 
@@ -95,6 +96,20 @@ async def save_image(request: Request):
     img.save("static/question.png")
     
     return {"url": "/static/question.png"}
+
+@app.post("/answer_question/{question_id}", response_class=HTMLResponse)
+async def answer_question(request: Request, question_id: str, answer: str = Form(...), db: SessionLocal = Depends(get_db), user: str = Depends(get_current_user)):
+    question = db.query(Question).filter(Question.id == question_id).first()
+    if question:
+        question.answer = answer  # Save the answer to the database
+        db.commit()
+    return RedirectResponse(url="/questions", status_code=303)
+
+@app.get("/answered_questions", response_class=HTMLResponse)
+async def answered_questions(request: Request, db: SessionLocal = Depends(get_db)):
+    questions = db.query(Question).filter(Question.answer != None).all()
+    return templates.TemplateResponse("answered_questions.html", {"request": request, "questions": questions})
+
 
 if __name__ == "__main__":
     import uvicorn

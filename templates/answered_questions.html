@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Answered Questions</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Answered Questions</h1>
+        {% for question in questions %}
+            <div class="card mt-3">
+                <div class="card-body">
+                    <p class="card-text"><strong>Question:</strong> {{ question.content }}</p>
+                    <p class="card-text"><strong>Answer:</strong> {{ question.answer }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
