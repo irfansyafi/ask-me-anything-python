@@ -1,0 +1,5 @@
+virt
+*.env
+*.db
+__pycache__
+database

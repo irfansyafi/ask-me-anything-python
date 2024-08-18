@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ask Me Anything</title>
+    <link rel="icon" href="static/img/titleicon.svg">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 </head>
@@ -14,5 +15,14 @@
         <a href="/ask" class="btn btn-primary mt-3">Ask Questions</a>
         <a href="/answered_questions" class="btn btn-info mt-3">View Answered Questions</a>
     </div>
+    <!-- Audio element -->
+    <audio id="background-music" loop>
+        <source src="/static/media/songs_intro.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Play button -->
+    <button id="play-button">&#9658;</button> <!-- Pause icon by default -->
+    <script src="/static/scripts.js"></script>
 </body>
 </html>
