@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from sqlalchemy import create_engine, Column, String
+from sqlalchemy import create_engine, Column, String,DateTime,Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import uuid
@@ -12,6 +12,7 @@ import os
 from PIL import Image
 import base64
 from io import BytesIO
+from datetime import datetime,timezone
 
 load_dotenv()
 
@@ -36,6 +37,9 @@ class Question(Base):
     id = Column(String, primary_key=True, index=True)
     content = Column(String, index=True)
     answer = Column(String, nullable= True) # Store the answer
+    timestamp = Column(DateTime, default=datetime.now(timezone.utc))  # Timestamp column
+    # answered = Column(Boolean, default=False)  # Track if answered
+    # screenshot_taken = Column(Boolean, default=False)  # Track if screenshot was taken
 
 Base.metadata.create_all(bind=engine)
 
