@@ -37,7 +37,7 @@ class Question(Base):
     id = Column(String, primary_key=True, index=True)
     content = Column(String, index=True)
     answer = Column(String, nullable= True) # Store the answer
-    timestamp = Column(DateTime, default=datetime.now(timezone.utc))  # Timestamp column
+    timestamp = Column(DateTime, default=datetime.now)  # Timestamp column
     # answered = Column(Boolean, default=False)  # Track if answered
     # screenshot_taken = Column(Boolean, default=False)  # Track if screenshot was taken
 
