@@ -15,7 +15,10 @@
             <div class="card mt-3">
                 <div class="card-body">
                     <p class="card-text"><strong>Question:</strong> {{ question.content }}</p>
-
+                    
+                    <!-- Timestamp Section -->
+                    <p class="card-text"><small class="text-muted">Asked on: {{ question.timestamp }}</small></p>
+                    
                     <!-- Screenshot Section -->
                     <a href="/questions/{{ question.id }}" class="btn btn-primary mt-2">Take Screenshot</a>
                     
