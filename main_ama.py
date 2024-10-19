@@ -81,7 +81,7 @@ async def admin(request: Request, user: str = Depends(get_current_user)):
 
 @app.get("/questions", response_class=HTMLResponse)
 async def view_questions(request: Request, user: str = Depends(get_current_user), db: SessionLocal = Depends(get_db)):
-    questions = db.query(Question).all()
+    questions = db.query(Question).order_by(Question.timestamp.desc()).all() # This will sort the answer from latest to earliest.
     return templates.TemplateResponse("questions.html", {"request": request, "questions": questions})
 
 @app.get("/questions/{question_id}", response_class=HTMLResponse)
