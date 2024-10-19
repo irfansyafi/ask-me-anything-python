@@ -12,7 +12,8 @@ import os
 from PIL import Image
 import base64
 from io import BytesIO
-from datetime import datetime,timezone
+from datetime import datetime
+from pytz import timezone
 
 load_dotenv()
 
@@ -32,12 +33,14 @@ engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
+malaysia_tz = timezone('Asia/Kuala_Lumpur') # Define Malaysian Timezone
+
 class Question(Base):
     __tablename__ = "questions"
     id = Column(String, primary_key=True, index=True)
     content = Column(String, index=True)
     answer = Column(String, nullable= True) # Store the answer
-    timestamp = Column(DateTime, default=datetime.now)  # Timestamp column
+    timestamp = Column(DateTime, default=lambda: datetime.now(malaysia_tz))  # Timestamp column
     # answered = Column(Boolean, default=False)  # Track if answered
     # screenshot_taken = Column(Boolean, default=False)  # Track if screenshot was taken
 
