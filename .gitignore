@@ -1,4 +1,5 @@
 virt
+virtualenv
 *.env
 *.db
 __pycache__
