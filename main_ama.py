@@ -33,7 +33,7 @@ engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-malaysia_tz = timezone('Asia/Kuala_Lumpur') # Define Malaysian Timezone
+malaysia_tz = timezone('Asia/Kuala_Lumpur')
 
 class Question(Base):
     __tablename__ = "questions"
