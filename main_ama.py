@@ -14,6 +14,9 @@ import base64
 from io import BytesIO
 from datetime import datetime
 from pytz import timezone
+import requests
+import logging
+import humanize
 
 load_dotenv()
 
@@ -29,6 +32,11 @@ ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
 DATABASE_URL = os.getenv("DATABASE_URL")
 
+# Get credentials for Telegram Bot
+
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
@@ -40,7 +48,7 @@ class Question(Base):
     id = Column(String, primary_key=True, index=True)
     content = Column(String, index=True)
     answer = Column(String, nullable= True) # Store the answer
-    timestamp = Column(DateTime, default=lambda: datetime.now(malaysia_tz))  # Timestamp column
+    timestamp = Column(String, default=lambda: datetime.now(malaysia_tz).strftime('%d-%m-%Y %H:%M:%S'))  # Timestamp column
     # answered = Column(Boolean, default=False)  # Track if answered
     # screenshot_taken = Column(Boolean, default=False)  # Track if screenshot was taken
 
@@ -73,7 +81,29 @@ async def submit_question(request: Request, question: str = Form(...), db: Sessi
     db.add(db_question)
     db.commit()
     db.refresh(db_question)
+    
+    # Send telegram request
+    send_telegram_notification(f"📩 New question received:\n\n📝 <b>Question:</b> {question}")
+    
     return templates.TemplateResponse("ask.html", {"request": request, "submitted": True})
+
+def send_telegram_notification(message: str):
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        logging.warning("Telegram credentials not set.")
+        return
+
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    payload = {
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": message,
+        "parse_mode": "HTML"
+    }
+
+    try:
+        response = requests.post(url, json=payload)
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Failed to send Telegram message: {e}")
 
 @app.get("/admin", response_class=HTMLResponse)
 async def admin(request: Request, user: str = Depends(get_current_user)):
@@ -113,9 +143,41 @@ async def answer_question(request: Request, question_id: str, answer: str = Form
     return RedirectResponse(url="/questions", status_code=303)
 
 @app.get("/answered_questions", response_class=HTMLResponse)
-async def answered_questions(request: Request, db: SessionLocal = Depends(get_db)):
-    questions = db.query(Question).filter(Question.answer != None).all()
-    return templates.TemplateResponse("answered_questions.html", {"request": request, "questions": questions})
+async def answered_questions(
+    request: Request,
+    page: int = 1,
+    page_size: int = 10,
+    db: SessionLocal = Depends(get_db)
+):
+    all_questions = db.query(Question).filter(Question.answer != None).all()
+
+    # Sort with timezone-aware datetimes
+    all_questions.sort(
+        key=lambda q: malaysia_tz.localize(datetime.strptime(q.timestamp, '%d-%m-%Y %H:%M:%S')),
+        reverse=True
+    )
+
+    # Add human-readable timestamp
+    now = datetime.now(malaysia_tz)
+    for q in all_questions:
+        dt = malaysia_tz.localize(datetime.strptime(q.timestamp, '%d-%m-%Y %H:%M:%S'))
+        q.human_timestamp = humanize.naturaltime(now - dt)
+
+    # Paginate
+    total = len(all_questions)
+    start = (page - 1) * page_size
+    end = start + page_size
+    paginated = all_questions[start:end]
+
+    return templates.TemplateResponse("answered_questions.html", {
+        "request": request,
+        "questions": paginated,
+        "page": page,
+        "page_size": page_size,
+        "total": total,
+        "total_pages": (total + page_size - 1) // page_size
+    })
+    
 
 if __name__ == "__main__":
     import uvicorn

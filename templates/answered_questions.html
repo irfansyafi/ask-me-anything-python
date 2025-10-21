@@ -10,15 +10,38 @@
 </head>
 <body>
     <div class="container mt-5">
+        <a class="btn btn-primary mb-3" href="/">
+            &larr; Back to Ask
+        </a>
         <h1>Answered Questions</h1>
         {% for question in questions %}
-            <div class="card mt-3">
-                <div class="card-body">
-                    <p class="card-text"><strong>Question:</strong> {{ question.content }}</p>
-                    <p class="card-text"><strong>Answer:</strong> {{ question.answer }}</p>
-                </div>
+        <div class="card mt-3">
+            <div class="card-body">
+                <p class="card-text"><strong>Question:</strong> {{ question.content }}</p>
+                <p class="card-text"><strong>Answer:</strong> {{ question.answer }}</p>
+                <p class="card-text text-muted"><small><strong>answered:</strong> {{ question.human_timestamp }}</small></p>
             </div>
+        </div>
         {% endfor %}
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page - 1 }}&page_size={{ page_size }}">Previous</a>
+                </li>
+                {% endif %}
+
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Page {{ page }} of {{ total_pages }}</a>
+                </li>
+
+                {% if page < total_pages %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page + 1 }}&page_size={{ page_size }}">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
     </div>
 </body>
 </html>
