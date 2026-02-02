@@ -1,30 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Admin Login</title>
-        <link rel="icon" href="static/img/titleicon.svg">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="/static/style.css">
-    </head>
-<body>
-    <div class="container">
-        <h1>Admin Interface</h1>
-        <a href="/questions" class="btn">View Questions</a>
+{% extends 'base.html' %}
+
+{% block title %}Admin — Ask Irfan{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+            Admin Interface
+        </h2>
+        <a href="/questions" 
+           class="px-4 py-2 bg-gray-700/50 text-gray-300 rounded-lg hover:bg-gray-600/50 transition-colors">
+            View Questions
+        </a>
     </div>
-</body>
-</html>
 
-
-{% for question in questions %}
-    <div class="card mt-3">
-        <div class="card-body">
-            <p class="card-text">{{ question.content }}</p>
-            <form action="/answer_question/{{ question.id }}" method="post">
-                <textarea name="answer" class="form-control" rows="3" placeholder="Type your answer here..."></textarea>
-                <button type="submit" class="btn btn-primary mt-2">Submit Answer</button>
-            </form>
+    {% for question in questions %}
+        <div class="bg-gray-800/30 backdrop-blur-lg rounded-xl border border-gray-700/50 overflow-hidden mb-6">
+            <div class="p-6">
+                <p class="text-lg text-white mb-4">{{ question.content }}</p>
+                <form action="/answer_question/{{ question.id }}" method="post" class="space-y-4">
+                    <div class="relative">
+                        <textarea 
+                            name="answer" 
+                            rows="3" 
+                            class="w-full px-4 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-shadow"
+                            placeholder="Type your answer here..."
+                            required
+                        ></textarea>
+                        <!-- Decorative gradient -->
+                        <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 pointer-events-none rounded-lg"></div>
+                    </div>
+                    <button type="submit" 
+                            class="px-6 py-2 bg-gradient-to-r from-emerald-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-emerald-500 hover:to-cyan-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all duration-300">
+                        Submit Answer
+                    </button>
+                </form>
+            </div>
         </div>
-    </div>
-{% endfor %}
+    {% endfor %}
+</div>
+{% endblock %}

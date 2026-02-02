@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <defs>
+    <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#7C3AED" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#5EEAD4" stop-opacity="0.85"/>
+    </linearGradient>
+    <style>
+      .bg{fill:url(#g1)}
+      .card{fill:rgba(7,10,20,0.6);stroke:#ffffff14;stroke-width:1}
+      .title{font-family:Inter, Arial, sans-serif;font-weight:800;fill:#e6eef6;font-size:48px}
+      .lead{font-family:Inter, Arial, sans-serif;fill:#cfeff0;opacity:0.9;font-size:20px}
+      .btn{fill:#fff;color:#06121a}
+    </style>
+  </defs>
+  <rect width="1200" height="700" fill="#030417"/>
+  <rect x="40" y="40" width="1120" height="620" rx="18" class="bg"/>
+  <g transform="translate(100,140)">
+    <text class="title">Ask Irfan — Home</text>
+    <text y="60" class="lead">No login. No tracking. Ask anonymous questions and get honest answers.</text>
+    <rect x="0" y="110" width="240" height="58" rx="10" fill="#06121a"/>
+    <text x="20" y="150" fill="#e6eef6" font-family="Inter, Arial" font-weight="700">Ask a Question</text>
+    <rect x="260" y="110" width="240" height="58" rx="10" fill="#0b1220" opacity="0.7"/>
+    <text x="280" y="150" fill="#cfeff0" font-family="Inter, Arial" font-weight="600">View Answers</text>
+  </g>
+</svg>

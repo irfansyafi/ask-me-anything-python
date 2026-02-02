@@ -1,47 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- HTML Meta Tags -->
-    <title>Ask Me Anything</title>
-    <meta name="description" content="Ask Irfan anything, completely anonymous. Ask questions, share knowledge and get answers.">
+{% extends 'base.html' %}
 
-    <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="https://ask-irfan.site">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Ask Me Anything">
-    <meta property="og:description" content="Ask Irfan anything, completely anonymous. Ask questions, share knowledge and get answers.">
-    <meta property="og:image" content="https://opengraph.b-cdn.net/production/images/fe260524-92cd-4117-98e4-5bd783c55898.png?token=AC2qUIrwY1pDd_7Yf51EMFR8DLcl894Clm2XQtV9JUA&height=500&width=500&expires=33282529342">
+{% block title %}Home — Ask Irfan{% endblock %}
 
-    <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta property="twitter:domain" content="ask-irfan.site">
-    <meta property="twitter:url" content="https://ask-irfan.site">
-    <meta name="twitter:title" content="Ask Me Anything">
-    <meta name="twitter:description" content="Ask Irfan anything, completely anonymous. Ask questions, share knowledge and get answers.">
-    <meta name="twitter:image" content="https://opengraph.b-cdn.net/production/images/fe260524-92cd-4117-98e4-5bd783c55898.png?token=AC2qUIrwY1pDd_7Yf51EMFR8DLcl894Clm2XQtV9JUA&height=500&width=500&expires=33282529342">
+{% block content %}
+<main class="flex flex-col items-center justify-center min-h-[70vh] relative" role="main">
+    <!-- Decorative background elements -->
+    <div class="absolute inset-0 bg-gradient-radial from-purple-500/10 via-transparent to-transparent" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-gradient-radial from-cyan-500/5 via-transparent to-transparent" aria-hidden="true"></div>
     
-    <link rel="icon" href="static/img/titleicon.svg">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-    <div class="container">
-        <h1 class="mt-5">Ask Irfan Anything!</h1>
-        <p style="text-align: center;">No Login, No Data Collected</p>
-        <a href="/ask" class="btn btn-primary mt-3">Ask Questions</a>
-        <a href="/answered_questions" class="btn btn-info mt-3">View Answered Questions</a>
+    <!-- Hero content -->
+    <div class="relative z-10 text-center space-y-8 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+            Ask Me Anything
+        </h1>
+        
+        <div class="text-xl text-gray-300 max-w-2xl mx-auto">
+            <p>Send anonymous questions. Get honest answers.</p>
+            <p class="mt-2 text-gray-400">No login required.</p>
+        </div>
+        
+        <nav class="flex flex-col sm:flex-row gap-4 justify-center mt-8" aria-label="Primary">
+            <a href="/ask" 
+               class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-lg text-white font-semibold hover:from-purple-500 hover:to-cyan-500 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+               aria-label="Ask a question - opens question form">
+                Ask a Question
+                <span class="sr-only"> - opens question form</span>
+            </a>
+            <a href="/answered_questions"
+               class="inline-flex items-center justify-center px-8 py-4 bg-gray-800/50 backdrop-blur rounded-lg text-gray-300 border border-gray-700 hover:bg-gray-700/50 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+               aria-label="View answers - shows list of answered questions">
+                View Answers
+                <span class="sr-only"> - shows list of answered questions</span>
+            </a>
+        </nav>
     </div>
-    <!-- Audio element -->
-    <audio id="background-music" loop>
-        <source src="/static/media/songs_intro.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+</main>
 
-    <!-- Play button -->
-    <button id="play-button">&#9658;</button> <!-- Pause icon by default -->
-    <script src="/static/scripts.js"></script>
-</body>
-</html>
+{% block styles %}
+<style>
+@media (prefers-reduced-motion: reduce) {
+    .transition-colors {
+        transition: none;
+    }
+    .focus\:ring-2:focus {
+        transition: none;
+    }
+}
+</style>
+{% endblock %}
+{% endblock %}

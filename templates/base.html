@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Ask Me Anything{% endblock %}</title>
+    
+    <!-- Meta tags for SEO and sharing -->
+    <meta name="description" content="Ask anonymous questions and get honest answers">
+    <meta property="og:title" content="Ask Me Anything">
+    <meta property="og:description" content="Ask anonymous questions and get honest answers">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/static/img/titleicon.svg">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="/static/css/variables.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+    {% block styles %}{% endblock %}
+</head>
+<body class="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+    <!-- Space background -->
+    <div class="space-bg" aria-hidden="true"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="/" class="navbar-brand">Ask Irfan</a>
+            
+            <button id="nav-toggle" class="md:hidden" aria-label="Toggle navigation">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+                </svg>
+            </button>
+            
+            <div id="nav-menu" class="navbar-menu">
+                <a href="/ask" class="navbar-link">Ask</a>
+                <a href="/answered_questions" class="navbar-link">Answers</a>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="container mx-auto px-4 pt-20 pb-12">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800">
+        <div class="container mx-auto px-4 py-6">
+            <p class="text-center text-sm text-gray-400">
+                © {{ year if year is defined else '' }} Ask Irfan — Send anonymous questions
+            </p>
+        </div>
+    </footer>
+
+    <!-- Audio player -->
+    <audio id="background-music" loop>
+        <source src="/static/media/songs_intro.mp3" type="audio/mpeg">
+    </audio>
+    <button id="play-button" class="fixed bottom-6 right-6 p-3 rounded-full bg-gray-800/50 hover:bg-gray-700/50 transition-colors" aria-label="Play background music">
+        &#9658;
+    </button>
+
+    <!-- JavaScript -->
+    <script src="/static/js/main.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

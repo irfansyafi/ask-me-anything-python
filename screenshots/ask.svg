@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="#020214"/>
+  <rect x="60" y="80" width="1080" height="540" rx="14" fill="#07101a" stroke="#ffffff12"/>
+  <text x="120" y="160" font-family="Inter, Arial" font-size="36" font-weight="700" fill="#e6eef6">Ask a Question</text>
+  <rect x="120" y="200" width="880" height="220" rx="12" fill="#0b1220" stroke="#ffffff14"/>
+  <text x="140" y="260" font-family="Inter, Arial" font-size="18" fill="#cfeff0">Type your anonymous question here...</text>
+  <rect x="920" y="460" width="180" height="52" rx="12" fill="#ffffff"/>
+  <text x="940" y="495" font-family="Inter, Arial" font-size="16" font-weight="700" fill="#06121a">Send Question</text>
+</svg>

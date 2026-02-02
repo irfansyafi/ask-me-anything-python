@@ -1,57 +1,176 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Share Question</title>
-    <link rel="icon" href="static/img/titleicon.svg">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/style.css">
-    <style>
-        body {
-            background-color: #E0F7FA; /* Light turquoise */
-        }
-        .btn-primary {
-            background-color: #40E0D0;
-            border-color: #40E0D0;
-        }
-        .card {
-            border: 1px solid #40E0D0;
-        }
-        .alert-success {
-            background-color: #40E0D0;
-            border-color: #40E0D0;
-            color: white;
-        }
-    </style>
-</head>
-<body>
-    <div class="container" id="question-card">
-        <h1 class="mt-5">Ask Irfan Anything!</h1>
-        <div class="card mt-3">
-            <div class="card-body">
-                <p class="card-text">{{ question.content }}</p>
+{% extends 'base.html' %}
+
+{% block title %}Share Question — Ask Irfan{% endblock %}
+
+{% block content %}
+<main class="max-w-2xl mx-auto px-4 sm:px-6 py-8">
+    <!-- Back link -->
+    <a href="/answered_questions" 
+       class="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded-lg px-2 py-1"
+       aria-label="Back to answered questions">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Back
+    </a>
+
+    <div id="question-card" class="bg-gray-800/30 backdrop-blur-lg rounded-xl border border-gray-700/50 overflow-hidden" role="article">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-6">
+                Share Question
+            </h1>
+            
+            <!-- Question card -->
+            <div class="bg-gray-900/50 rounded-lg border border-gray-700 p-4 mb-6">
+                <p class="text-gray-200" id="question-content">{{ question.content }}</p>
+            </div>
+            
+            <!-- Actions -->
+            <div class="flex flex-wrap gap-4">
+                <button id="save-image" 
+                        aria-label="Save question as image"
+                        class="inline-flex items-center justify-center min-w-[160px] px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-purple-500 hover:to-cyan-500 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <span>Save as Image</span>
+                </button>
+                <a id="download-link" class="hidden" aria-hidden="true" tabindex="-1"></a>
+            </div>
+            
+            <!-- Status messages -->
+            <div id="save-alert" 
+                 class="hidden mt-4 rounded-lg p-4 animate-fade-in"
+                 role="status"
+                 aria-live="polite">
+                <p class="text-center"></p>
             </div>
         </div>
-        <button id="save-image" class="btn btn-primary mt-3">Save as Image</button>
-        <a id="download-link" style="display: none;"></a>
-        <div id="save-alert" class="alert alert-success mt-3" style="display: none;" role="alert">
-            The image has been saved!
-        </div>
     </div>
-    <script src="/static/html2canvas.min.js"></script>
-    <script>
-        document.getElementById('save-image').addEventListener('click', function() {
-            html2canvas(document.getElementById('question-card')).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const downloadLink = document.getElementById('download-link');
-                downloadLink.href = imgData;
-                downloadLink.download = 'question.png';
-                downloadLink.style.display = 'block';
-                downloadLink.click();
-                document.getElementById('save-alert').style.display = 'block';
+</main>
+{% endblock %}
+
+{% block styles %}
+<style>
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Status colors */
+.status-success {
+    background-color: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.2);
+    color: rgb(74, 222, 128);
+}
+
+.status-error {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.2);
+    color: rgb(248, 113, 113);
+}
+
+/* Accessibility and reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-spin {
+        animation: none;
+    }
+}
+
+/* Mobile touch target improvements */
+@media (max-width: 640px) {
+    button,
+    a[href] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/html2canvas.min.js"></script>
+<script>
+(function() {
+    const button = document.getElementById('save-image');
+    const alert = document.getElementById('save-alert');
+    const downloadLink = document.getElementById('download-link');
+
+    function showStatus(type, message) {
+        alert.className = `mt-4 rounded-lg p-4 animate-fade-in border status-${type}`;
+        alert.querySelector('p').textContent = message;
+        alert.classList.remove('hidden');
+
+        setTimeout(() => {
+            alert.classList.add('hidden');
+        }, 3000);
+    }
+
+    function setButtonState(isLoading) {
+        const loadingText = 'Processing...';
+        const defaultHtml = `
+            <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <span>Save as Image</span>
+        `;
+        const loadingHtml = `
+            <svg class="animate-spin h-5 w-5 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>${loadingText}</span>
+        `;
+
+        button.disabled = isLoading;
+        button.setAttribute('aria-busy', isLoading);
+        button.innerHTML = isLoading ? loadingHtml : defaultHtml;
+        button.setAttribute('aria-label', isLoading ? loadingText : 'Save question as image');
+    }
+
+    async function captureAndSave() {
+        try {
+            setButtonState(true);
+            
+            const canvas = await html2canvas(document.getElementById('question-card'), {
+                // Improve image quality
+                scale: 2,
+                // Ensure proper rendering of backdrop-blur
+                backgroundColor: null,
+                logging: false
             });
-        });
-    </script>
-</body>
-</html>
+
+            const imgData = canvas.toDataURL('image/png');
+            downloadLink.href = imgData;
+            downloadLink.download = `question-${Date.now()}.png`;
+            downloadLink.click();
+
+            showStatus('success', 'Image has been saved to your downloads!');
+        } catch (error) {
+            console.error('Error generating image:', error);
+            showStatus('error', 'Error saving image. Please try again.');
+        } finally {
+            setButtonState(false);
+        }
+    }
+
+    // Event listeners
+    button.addEventListener('click', captureAndSave);
+})();
+</script>
+{% endblock %}

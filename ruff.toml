@@ -1,0 +1,44 @@
+[lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
+ignore = [
+    "B005", # Using `.strip()` with multi-character strings is misleading
+    "B007", # Loop control variable `variable_name` not used within loop body
+    "B008", # Do not perform function call `Example: Depends,Security` in argument defaults; instead perform the call within the function
+    "B904", # Within an `except` clause, raise exceptions with `raise ... from err` or `raise .. from None` to distinguish them from errors in exception handling
+    #"E402", # Module level import not at top of file
+    "E501", # Line too long
+    "E711", # Comparison to `None` should be `cond is not None`
+    "E712", # Avoid equality comparison to `False`; use `not` for false checks
+    "E722", # Do not use bare `except` (this is actually okay and good for debug if enabled)
+    # "F401", # unused import
+    "F541", # f-string without any placeholders
+    "F841", # Local variable is assigned to but never used
+    "F811", # redefinition of unused
+    "F821", # Undefined name
+    # "I001", # Import block is un-sorted or un-formatted
+    "SIM102", # Use a single `if` statement instead of nested `if` statements. Combine `if` statements using `and`
+    "SIM105", # Use `contextlib.suppress(Exception)` instead of `try` - `except` - `pass`
+    "SIM108", # Use binary operator `Example: key = value1 or None` instead of `if-else block`
+    "SIM201", # Use `!=` instead of `not statement == condition`
+    "SIM114", # combine `if` branches using logical `or` operator
+    "SIM210", # Use `bool(...)` instead of `True if ... else False`
+    "UP006", # Use `list` instead of `List` for type annotation
+    "UP008", # Use `super()` instead of `super(__class__, self)`
+    "UP015", # Unnecessary mode argument
+    "UP018", # Unnecessary `float` call (rewrite as a literal)
+    "UP034", # Avoid extraneous parentheses
+    "UP035", # typing.List is deprecated, use `list` instead
+    ]

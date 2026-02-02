@@ -1,47 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Answered Questions</title>
-    <link rel="icon" href="static/img/titleicon.svg">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-    <div class="container mt-5">
-        <a class="btn btn-primary mb-3" href="/">
-            &larr; Back to Ask
+{% extends 'base.html' %}
+
+{% block title %}Answered Questions — Ask Irfan{% endblock %}
+
+{% block content %}
+<main class="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+        <a href="/" 
+           class="text-gray-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded-lg px-2 py-1"
+           aria-label="Go back to home page">
+            <span class="inline-flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Back
+            </span>
         </a>
-        <h1>Answered Questions</h1>
-        {% for question in questions %}
-        <div class="card mt-3">
-            <div class="card-body">
-                <p class="card-text"><strong>Question:</strong> {{ question.content }}</p>
-                <p class="card-text"><strong>Answer:</strong> {{ question.answer }}</p>
-                <p class="card-text text-muted"><small><strong>answered:</strong> {{ question.human_timestamp }}</small></p>
-            </div>
-        </div>
-        {% endfor %}
-        <nav aria-label="Page navigation" class="mt-4">
-            <ul class="pagination justify-content-center">
-                {% if page > 1 %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page - 1 }}&page_size={{ page_size }}">Previous</a>
-                </li>
-                {% endif %}
-
-                <li class="page-item disabled">
-                    <a class="page-link" href="#">Page {{ page }} of {{ total_pages }}</a>
-                </li>
-
-                {% if page < total_pages %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page + 1 }}&page_size={{ page_size }}">Next</a>
-                </li>
-                {% endif %}
-            </ul>
-        </nav>
+        <h1 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+            Answered Questions
+        </h1>
     </div>
-</body>
-</html>
+
+    <!-- Questions list -->
+    <div class="space-y-6" role="feed" aria-label="List of answered questions">
+        {% for question in questions %}
+        <article class="bg-gray-800/30 backdrop-blur-lg rounded-xl border border-gray-700/50 overflow-hidden transition-colors hover:border-purple-500/30 hover:bg-gray-800/40">
+            <div class="p-6">
+                <h2 class="text-lg font-semibold text-white mb-3">Question</h2>
+                <div class="text-gray-200 mb-4" role="text">{{ question.content }}</div>
+                
+                <h3 class="text-lg font-semibold text-white mb-3">Answer</h3>
+                <div class="text-gray-300 mb-4" role="text">{{ question.answer }}</div>
+                
+                <time datetime="{{ question.timestamp }}" class="text-sm text-gray-400">
+                    Answered: {{ question.human_timestamp }}
+                </time>
+            </div>
+            
+            <!-- Decorative gradient -->
+            <div class="h-1 bg-gradient-to-r from-purple-500/50 to-cyan-500/50" aria-hidden="true"></div>
+        </article>
+        {% endfor %}
+
+        {% if not questions %}
+        <div class="text-center py-8 text-gray-400" role="status">
+            No answered questions yet.
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Pagination -->
+    <nav class="mt-8 flex justify-center" aria-label="Question pages">
+        <div class="flex flex-wrap items-center justify-center gap-2">
+            {% if page > 1 %}
+            <a href="?page={{ page - 1 }}&page_size={{ page_size }}"
+               class="px-4 py-2 bg-gray-800/50 rounded-lg text-gray-300 hover:bg-gray-700/50 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+               aria-label="Go to previous page">
+                Previous
+            </a>
+            {% endif %}
+
+            <div class="px-4 py-2 bg-gray-800/80 rounded-lg text-gray-300" role="status">
+                <span class="sr-only">Currently on</span>
+                Page {{ page }} of {{ total_pages }}
+            </div>
+
+            {% if page < total_pages %}
+            <a href="?page={{ page + 1 }}&page_size={{ page_size }}"
+               class="px-4 py-2 bg-gray-800/50 rounded-lg text-gray-300 hover:bg-gray-700/50 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+               aria-label="Go to next page">
+                Next
+            </a>
+            {% endif %}
+        </div>
+    </nav>
+</main>
+
+{% block styles %}
+<style>
+@media (prefers-reduced-motion: reduce) {
+    .transition-colors {
+        transition: none;
+    }
+    .focus\:ring-2:focus {
+        transition: none;
+    }
+}
+
+/* Improve mobile touch targets */
+@media (max-width: 640px) {
+    nav a,
+    nav button {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+</style>
+{% endblock %}
+{% endblock %}
